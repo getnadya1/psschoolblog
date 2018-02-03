@@ -1,7 +1,7 @@
 <% if current_user ==@post.user %>
 
-<%= link_to "Edit", edit_post_path(@post) %>
-<%= link_to "Delete", post_path(@post), method: :delete %>
+<%= link_to "Edit", edit_post_path(@post), class: "btn btn-primary" %>
+<%= link_to "Delete", post_path(@post), class: "btn btn-danger", method: :delete %>
 
 <% end%>
 <h1><%= @post.title %></h1>
@@ -9,8 +9,20 @@
 
 <br>
 
-<p><%= @post.body %></p>
+
+<p><%= @post.body.html_safe %></p>
 
 <br>
 <p>Written by <%= @post.user.email %></p>
+<h3>
+<% if user_signed_in? %>
+<%= link_to "#heart", class: "js-heart-post", data:{ url: "/posts/#{@post.id}/post_likes"} do %>
+<%= fa_icon post_like_icon_class(@post) %>
+<% end %>
+<span class="js-heart-count heart-count"> <%= @post.post_likes.count %></span>
+
+    </h3>
+    <% end %>
+    
+
 
